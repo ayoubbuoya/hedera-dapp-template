@@ -5,8 +5,6 @@ import {
   braveWallet,
   metaMaskWallet,
   trustWallet,
-  coinbaseWallet,
-  ledgerWallet,
 } from "@rainbow-me/rainbowkit/wallets";
 import { createConfig } from "wagmi";
 import { hedera, hederaTestnet } from "wagmi/chains";

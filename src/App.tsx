@@ -1,5 +1,5 @@
 import { ConnectButton } from "@rainbow-me/rainbowkit";
-import { useState } from "react";
+import { Storage } from "./components/Storage";
 
 function App() {
   return (
@@ -10,8 +10,8 @@ function App() {
           <ConnectButton />
         </header>
 
-        <div className="py-3 px-6 flex justify-between items-center max-w-full">
-
+        <div className="py-3 px-6 flex justify-between items-center max-w-full ">
+          <Storage />
         </div>
       </div>
     </>
