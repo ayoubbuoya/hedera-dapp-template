@@ -21,6 +21,8 @@ export const Storage = () => {
     data: nameFromContract,
     error: readError,
     isPending: isReadPending,
+    refetch: refetchName,
+    isRefetching: isRefetchingName,
   } = useReadContract({
     address: contractAddress,
     abi: contractABI,
@@ -49,8 +51,20 @@ export const Storage = () => {
           autoClose: 3000,
         });
       } else {
-        alert("Name set successfully!");
+        toast.success("Name set successfully!", {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
       }
+      // After the name is set, refetch the name from the contract
+      refetchName();
+
       setToastId(null);
       setHash(undefined);
       setName("");
@@ -106,14 +120,16 @@ export const Storage = () => {
 
   return (
     <div className="h-full min-h-20 py-8 px-8 border border-gray-400 rounded bg-slate-200 ">
-      <div>
-        <div className="flex items-center justify-around gap-5 w-full">
+      <div className="flex flex-col justify-center">
+        <div className="flex items-center gap-8 w-full">
           <h1 className="text-2xl font-bold text-gray-800">Current Name:</h1>
           <p className="text-xl text-gray-600 font-semibold">
             {!isConnected
               ? "Connect your wallet to see your name"
               : isReadPending
               ? "Fetching Name..."
+              : isRefetchingName
+              ? "Refreshing Name..."
               : readError
               ? "Error fetching name cause of " + readError?.message
               : nameFromContract?.toString() === ""
@@ -123,23 +139,21 @@ export const Storage = () => {
         </div>
 
         <div>
-          <div>
-            <input
-              className="border border-gray-400 rounded px-2 py-1 mt-4 w-full"
-              type="text"
-              placeholder="Enter new name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-            />
+          <input
+            className="border border-gray-400 rounded px-2 py-1 mt-4 w-full"
+            type="text"
+            placeholder="Enter new name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
 
-            <button
-              className="bg-blue-500 text-white px-4 py-2 rounded mt-4 hover:bg-blue-600 disabled:opacity-50 w-full"
-              disabled={!name || !isConnected || name === "" || isConfirming}
-              onClick={handleSetName}
-            >
-              {isConfirming ? "Confirming..." : "Set Name"}
-            </button>
-          </div>
+          <button
+            className="bg-blue-500 text-white px-4 py-2 rounded mt-4 hover:bg-blue-600 disabled:opacity-50 w-full"
+            disabled={!name || !isConnected || name === "" || isConfirming}
+            onClick={handleSetName}
+          >
+            {isConfirming ? "Confirming..." : "Set Name"}
+          </button>
         </div>
       </div>
     </div>
