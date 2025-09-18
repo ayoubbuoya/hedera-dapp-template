@@ -10,7 +10,8 @@
     "build": "npm run build:frontend && npm run build:contracts",
     "lint": "eslint .",
     "preview": "vite preview",
-    "deploy:counter": "cd contracts && forge script script/Counter.s.sol --rpc-url hedera_testnet --broadcast --verify --verifier sourcify --verifier-url https://server-verify.hashscan.io"
+    "deploy:storage": "cd contracts && forge script script/Storage.s.sol --rpc-url hedera_testnet --broadcast --verify --verifier sourcify --verifier-url https://server-verify.hashscan.io",
+    "test:contracts": "cd contracts && forge test"
   },
   "dependencies": {
     "@rainbow-me/rainbowkit": "^2.2.8",
